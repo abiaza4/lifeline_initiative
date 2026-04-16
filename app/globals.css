@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #0a0a0a;
+    --card: #ffffff;
+    --card-foreground: #0a0a0a;
+    --popover: #ffffff;
+    --popover-foreground: #0a0a0a;
+    --primary: #2D7D3D;
+    --primary-foreground: #ffffff;
+    --secondary: #1F5A7D;
+    --secondary-foreground: #ffffff;
+    --muted: #f5f5f5;
+    --muted-foreground: #737373;
+    --accent: #E67E22;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #e5e5e5;
+    --input: #e5e5e5;
+    --ring: #2D7D3D;
+    --chart-1: #2D7D3D;
+    --chart-2: #1F5A7D;
+    --chart-3: #E67E22;
+    --chart-4: #8b5cf6;
+    --chart-5: #f97316;
+    --radius: 0.625rem;
+    --sidebar: #f5f5f5;
+    --sidebar-foreground: #0a0a0a;
+    --sidebar-primary: #2D7D3D;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #E67E22;
+    --sidebar-accent-foreground: #0a0a0a;
+    --sidebar-border: #e5e5e5;
+    --sidebar-ring: #2D7D3D;
+  }
+
+  .dark {
+    --background: #0a0a0a;
+    --foreground: #ffffff;
+    --card: #171717;
+    --card-foreground: #ffffff;
+    --popover: #171717;
+    --popover-foreground: #ffffff;
+    --primary: #5fbb97;
+    --primary-foreground: #0a0a0a;
+    --secondary: #6fa3d4;
+    --secondary-foreground: #ffffff;
+    --muted: #262626;
+    --muted-foreground: #a3a3a3;
+    --accent: #ff9c5c;
+    --accent-foreground: #0a0a0a;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #262626;
+    --input: #262626;
+    --ring: #5fbb97;
+    --chart-1: #5fbb97;
+    --chart-2: #6fa3d4;
+    --chart-3: #ff9c5c;
+    --chart-4: #8b5cf6;
+    --chart-5: #f97316;
+    --sidebar: #171717;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #5fbb97;
+    --sidebar-primary-foreground: #0a0a0a;
+    --sidebar-accent: #ff9c5c;
+    --sidebar-accent-foreground: #0a0a0a;
+    --sidebar-border: #262626;
+    --sidebar-ring: #5fbb97;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

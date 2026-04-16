@@ -1,0 +1,190 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int        @id @default(autoincrement())
+  name          String
+  email         String     @unique
+  password      String
+  role          String     @default("donor")
+  phone         String?
+  avatar        String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  donations     Donation[]
+  blogs         Blog[]
+  teamMember    TeamMember?
+  
+  @@map("users")
+}
+
+model TeamMember {
+  id          Int      @id @default(autoincrement())
+  userId      Int?     @unique
+  name        String
+  position    String
+  bio         String?
+  email       String
+  phone       String
+  image       String
+  skills      String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user        User?    @relation(fields: [userId], references: [id])
+  
+  @@map("team_members")
+}
+
+model Campaign {
+  id               Int        @id @default(autoincrement())
+  title            String
+  description      String
+  shortDescription String?
+  goalAmount       Float
+  raisedAmount     Float      @default(0)
+  image            String
+  category         String
+  startDate        DateTime
+  endDate          DateTime?
+  isActive         Boolean    @default(true)
+  isFeatured       Boolean    @default(false)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  
+  donations        Donation[]
+  
+  @@map("campaigns")
+}
+
+model Donation {
+  id              Int       @id @default(autoincrement())
+  userId          Int?
+  campaignId      Int
+  amount          Float
+  paymentMethod   String
+  paymentStatus   String    @default("pending")
+  transactionId   String?
+  donorName       String?
+  donorEmail      String?
+  message         String?
+  isAnonymous     Boolean   @default(false)
+  donationDate    DateTime  @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  user            User?     @relation(fields: [userId], references: [id])
+  campaign        Campaign  @relation(fields: [campaignId], references: [id])
+  
+  @@map("donations")
+}
+
+model Volunteer {
+  id            Int       @id @default(autoincrement())
+  name          String
+  email         String
+  phone         String
+  skills        String?
+  availability  String?
+  message       String
+  status        String    @default("pending")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("volunteers")
+}
+
+model Blog {
+  id           Int       @id @default(autoincrement())
+  title        String
+  slug         String    @unique
+  content      String
+  excerpt      String?
+  image        String
+  authorId     Int
+  isPublished  Boolean   @default(false)
+  isFeatured   Boolean   @default(false)
+  publishDate  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  author       User      @relation(fields: [authorId], references: [id])
+  
+  @@map("blogs")
+}
+
+model Newsletter {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  
+  @@map("newsletters")
+}
+
+model SiteSettings {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+  
+  @@map("site_settings")
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  description String
+  image       String
+  category    String
+  goalAmount  Float?
+  raisedAmount Float   @default(0)
+  startDate   DateTime?
+  endDate     DateTime?
+  isActive    Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("projects")
+}
+
+model Album {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  coverImage  String?
+  category    String   @default("Projects")
+  date        DateTime?
+  location    String?
+  isFeatured  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  photos      GalleryPhoto[]
+  
+  @@map("albums")
+}
+
+model GalleryPhoto {
+  id        Int      @id @default(autoincrement())
+  albumId   Int
+  image     String
+  caption   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  
+  album     Album    @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  
+  @@map("gallery_photos")
+}
